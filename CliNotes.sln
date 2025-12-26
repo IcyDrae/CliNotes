@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CliNotes", "CliNotes.csproj", "{530233CE-9D3B-824E-83FB-1DC48B8E496C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{530233CE-9D3B-824E-83FB-1DC48B8E496C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{530233CE-9D3B-824E-83FB-1DC48B8E496C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{530233CE-9D3B-824E-83FB-1DC48B8E496C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{530233CE-9D3B-824E-83FB-1DC48B8E496C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {34189152-7ADA-4F64-9462-5AB2FCF34E69}
+	EndGlobalSection
+EndGlobal
