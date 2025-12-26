@@ -58,6 +58,9 @@ namespace CliNotes
                 case "list":
                     HandleList(parameters);
                     break;
+                case "search":
+                    HandleSearch(parameters);
+                    break;
                 case "delete":
                     HandleDelete(parameters);
                     break;
@@ -125,7 +128,33 @@ namespace CliNotes
 
         public void HandleOpen(string[] parameters)
         {
-            Console.WriteLine("Open command executed");
+            if (parameters.Length == 0)
+            {
+                Console.WriteLine("No file name provided for open command.");
+                return;
+            }
+
+            string FileName = parameters[0];
+            string FolderPath = NoteFolder.DefaultFolderPath;
+            string FilePath = Path.Combine(FolderPath, FileName);
+
+            if (File.Exists(FilePath))
+            {
+                OpenFileInDefaultEditor(FilePath);
+
+                string indexPath = Path.Combine(FolderPath, "index.json");
+                Index index = Json.ReadIndexFile(indexPath);
+                Note? note = index.Notes.Find(n => n.FileName == FileName);
+                if (note != null)
+                {
+                    note.UpdatedAt = DateTime.Now;
+                    Json.SaveIndexFileToDisk(indexPath, index);
+                }
+            }
+            else
+            {
+                Console.WriteLine($"Note '{FileName}' does not exist.");
+            }
         }
 
         public void HandleList(string[] parameters)
@@ -155,6 +184,11 @@ namespace CliNotes
                     Console.WriteLine("----------------------------------------");
                 }
             }
+        }
+
+        public void HandleSearch(string[] parameters)
+        {
+            Console.WriteLine("Search command executed");
         }
 
         public void HandleDelete(string[] parameters)

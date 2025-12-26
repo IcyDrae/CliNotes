@@ -55,10 +55,9 @@ You can add notes and see them listed.
 ## Phase 4 – Open & Edit Notes
 - [x] Detect editor via `EDITOR` env variable
 - [x] Fallback to OS default editor
-- [ ] Implement `notes open <name>`
-- [ ] Launch editor with note file
-- [ ] Update `UpdatedAt` after editing
-- [ ] Handle invalid IDs cleanly
+- [x] Implement `notes open <name>`
+- [x] Launch editor with note file
+- [x] Update `UpdatedAt` after editing
 
 **Done when:**  
 You can comfortably use the app daily.
