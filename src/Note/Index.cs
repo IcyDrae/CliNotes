@@ -2,8 +2,6 @@ namespace CliNotes
 {
     public class Index
     {
-        public List<Note> notes { get; set; } = new List<Note>();
-
-        
+        public List<Note> Notes { get; set; } = new List<Note>();
     }
 }

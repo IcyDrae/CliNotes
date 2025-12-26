@@ -23,12 +23,17 @@ The app runs, accepts commands, and `notes list` works without errors.
 ---
 
 ## Phase 2 – Notes as Data
-- [ ] Define `Note` model (Id, Title, Tags, CreatedAt, UpdatedAt, IsDeleted)
-- [ ] Decide file naming scheme (e.g. `0001.md`)
-- [ ] Create `index.json` structure
-- [ ] Implement loading index from disk
-- [ ] Implement saving index to disk
-- [ ] Handle missing or corrupted index gracefully
+- [x] Define `Note` model (Id, Title, Tags, CreatedAt, UpdatedAt, IsDeleted)
+- [x] Files get created from the user with a name from the user
+    - user says: notes add file1.txt [x]
+    - app creates a file with that name [x]
+    - app updates index.json file with the metadata of that file [x]
+        - metadata is: created_at, saved_at,deleted_at [x]
+    - app opens the newly created file in the default terminal editor [x]
+- [x] Create `index.json` structure
+- [x] Implement loading index from disk
+- [x] Implement saving index to disk
+- [x] Implement creating a file with tags
 
 **Done when:**  
 Notes metadata survives app restarts.

@@ -68,7 +68,7 @@ index.json
 ## Example Usage
 
 ```bash
-notes add 001.txt
+notes add 001.txt --tags "Computer Science" "C#"
 notes open 001.txt
 notes list
 notes search await

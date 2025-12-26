@@ -5,7 +5,7 @@ namespace CliNotes
     public class NoteFolder
     {
         // Default folder path: ~/notes
-        public string DefaultFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/notes";
+        public static string DefaultFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/notes";
         public const string DefaultFolderName = "notes";
         public const string TrashFolderName = "trash";
         public const string IndexFileName = "index.json";
@@ -32,6 +32,8 @@ namespace CliNotes
             if (!File.Exists(indexFilePath))
             {
                 File.Create(indexFilePath).Close();
+
+                Json.SaveIndexFileToDisk(indexFilePath, new Index());
             }
         }
     }
