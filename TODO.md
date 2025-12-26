@@ -41,12 +41,11 @@ Notes metadata survives app restarts.
 ---
 
 ## Phase 3 – Create & List Notes
-- [ ] Implement `notes add "title"` command
-- [ ] Support optional `--tags a,b,c`
-- [ ] Create note file with initial content
-- [ ] Add note entry to index
-- [ ] Auto-generate unique note IDs
-- [ ] Improve `notes list` output (id, title, date, tags)
+- [x] Implement `notes add "title"` command
+- [x] Support optional `--tags a,b,c`
+- [x] Add note entry to index
+- [x] Auto-generate unique note IDs
+- [x] Improve `notes list` output (id, title, date, tags)
 
 **Done when:**  
 You can add notes and see them listed.
@@ -54,9 +53,9 @@ You can add notes and see them listed.
 ---
 
 ## Phase 4 – Open & Edit Notes
-- [ ] Detect editor via `EDITOR` env variable
-- [ ] Fallback to OS default editor
-- [ ] Implement `notes open <id>`
+- [x] Detect editor via `EDITOR` env variable
+- [x] Fallback to OS default editor
+- [ ] Implement `notes open <name>`
 - [ ] Launch editor with note file
 - [ ] Update `UpdatedAt` after editing
 - [ ] Handle invalid IDs cleanly

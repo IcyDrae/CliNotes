@@ -141,10 +141,18 @@ namespace CliNotes
             }
             else
             {
+                string DateTimeFormat = "yyyy-dd-MM HH:mm";
+
                 foreach (var note in index.Notes)
                 {
-                    Console.WriteLine(note.FileName);
-                    Console.WriteLine("--------------------");
+                    Console.WriteLine("File name: " + note.FileName);
+                    Console.WriteLine("Created at: " + note.CreatedAt.ToString(DateTimeFormat));
+                    Console.WriteLine("Updated at: " + note.UpdatedAt.ToString(DateTimeFormat));
+                    if (note.Tags.Count > 0)
+                    {
+                        Console.WriteLine("Tags: " + string.Join(", ", note.Tags));
+                    }
+                    Console.WriteLine("----------------------------------------");
                 }
             }
         }
