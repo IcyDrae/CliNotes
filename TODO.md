@@ -78,11 +78,10 @@ Finding notes feels fast and useful.
 ---
 
 ## Phase 6 – Delete Safely
-- [ ] Implement `notes delete <id>` (soft delete)
-- [ ] Move note file to `trash/`
-- [ ] Mark note as deleted in index
-- [ ] Implement `notes restore <id>`
-- [ ] Prevent duplicate deletes/restores
+- [x] Implement `notes delete <FileName>` (soft delete)
+- [x] Move note file to `trash/`
+- [x] Mark note as deleted in index
+- [x] Implement `notes restore <id>`
 
 **Done when:**  
 You are not afraid of losing notes.
@@ -90,12 +89,9 @@ You are not afraid of losing notes.
 ---
 
 ## Phase 7 – Polish
-- [ ] Clear error messages
-- [ ] Consistent command output format
 - [ ] Help command (`notes help`)
 - [ ] Write README
 - [ ] Add usage examples
-- [ ] Small refactors and cleanup
 
 **Done when:**  
 Project is portfolio-ready.

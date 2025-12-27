@@ -64,6 +64,9 @@ namespace CliNotes
                 case "delete":
                     HandleDelete(parameters);
                     break;
+                case "restore":
+                    HandleRestore(parameters);
+                    break;
                 default:
                     Console.WriteLine($"Unknown command: {command}");
                     break;
@@ -153,6 +156,9 @@ namespace CliNotes
 
         public void HandleList(string[] parameters)
         {
+            List<string> Tags = new List<string>();
+            Tags = ParseTags(parameters, Tags);
+
             var index = Json.ReadIndexFile(
                 NoteFolder.DefaultFolderPath + "/index.json"
             );
@@ -162,29 +168,25 @@ namespace CliNotes
                 Console.WriteLine("No notes found.");
                 return;
             }
-            else
-            {
-                foreach (var note in index.Notes)
-                {
-                    OutputNoteDetails(note);
-                }
-            }
-
-            List<string> Tags = new List<string>();
-            Tags = ParseTags(parameters, Tags);
-
-            if (Tags.Count > 0)
+            else if (Tags.Count > 0)
             {
                 Console.WriteLine("Filtering notes by tags: " + string.Join(", ", Tags));
                 foreach (var tag in Tags)
                 {
                     foreach (var note in index.Notes)
                     {
-                        if (note.Tags.Contains(tag.ToLower()) && note.IsDeleted == false)
+                        if (note.Tags.Contains(tag) && note.IsDeleted == false)
                         {
                             OutputNoteDetails(note);
                         }
                     }
+                }
+            }
+            else
+            {
+                foreach (var note in index.Notes)
+                {
+                    OutputNoteDetails(note);
                 }
             }
         }
@@ -236,7 +238,81 @@ namespace CliNotes
 
         public void HandleDelete(string[] parameters)
         {
-            Console.WriteLine("Delete command executed");
+            if (parameters.Length == 0)
+            {
+                Console.WriteLine("No file name provided for delete command.");
+                return;
+            }
+
+            string FileName = parameters[0];
+            string FolderPath = NoteFolder.DefaultFolderPath;
+            string FilePath = Path.Combine(FolderPath, FileName);
+            string TrashFolderPath = Path.Combine(FolderPath, NoteFolder.TrashFolderName);
+            string TrashFilePath = Path.Combine(TrashFolderPath, FileName);
+            string indexPath = Path.Combine(FolderPath, "index.json");
+
+            if (File.Exists(FilePath))
+            {
+                // move file to trash folder
+                if (!Directory.Exists(TrashFolderPath))
+                {
+                    Directory.CreateDirectory(TrashFolderPath);
+                }
+
+                File.Move(FilePath, TrashFilePath);
+
+                // update index file
+                Index index = Json.ReadIndexFile(indexPath);
+                Note? note = index.Notes.Find(n => n.FileName == FileName);
+                if (note != null)
+                {
+                    note.IsDeleted = true;
+                    Json.SaveIndexFileToDisk(indexPath, index);
+                }
+
+                Console.WriteLine($"Note '{FileName}' moved to trash.");
+            }
+            else
+            {
+                Console.WriteLine($"Note '{FileName}' does not exist.");
+            }
+        }
+
+        public void HandleRestore(string[] parameters)
+        {
+            if (parameters.Length == 0)
+            {
+                Console.WriteLine("No file name provided for restore command.");
+                return;
+            }
+
+            string FileName = parameters[0];
+            string FolderPath = NoteFolder.DefaultFolderPath;
+            string FilePath = Path.Combine(FolderPath, FileName);
+            string TrashFolderPath = Path.Combine(FolderPath, NoteFolder.TrashFolderName);
+            string TrashFilePath = Path.Combine(TrashFolderPath, FileName);
+            string indexPath = Path.Combine(FolderPath, "index.json");
+
+            if (File.Exists(TrashFilePath))
+            {
+                // move file from trash folder to main folder
+                File.Move(TrashFilePath, FilePath);
+
+                // update index file
+                Index index = Json.ReadIndexFile(indexPath);
+                Note? note = index.Notes.Find(n => n.FileName == FileName);
+                if (note != null)
+                {
+                    note.IsDeleted = false;
+                    Json.SaveIndexFileToDisk(indexPath, index);
+                }
+
+                Console.WriteLine($"Note '{FileName}' restored from trash.");
+            }
+            else
+            {
+                Console.WriteLine($"Note '{FileName}' does not exist in trash.");
+            }
         }
 
         private static int ComputeNextNoteId(Index index)
@@ -282,7 +358,7 @@ namespace CliNotes
 
         private static List<string> ParseTags(string[] parameters, List<string> Tags)
         {
-            for (int i = 1; i < parameters.Length; i++)
+            for (int i = 0; i < parameters.Length; i++)
             {
                 if (parameters[i] == "--tags")
                 {
