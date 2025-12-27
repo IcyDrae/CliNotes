@@ -103,6 +103,13 @@ namespace CliNotes
             // create empty file if it does not exist
             if (!File.Exists(FilePath))
             {
+                // create folder from path if it does not exist
+                string? directory = Path.GetDirectoryName(FilePath);
+                if (directory != null && !Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
+
                 File.Create(FilePath).Close();
 
                 // update index file with the metadata of the new note
@@ -188,7 +195,49 @@ namespace CliNotes
 
         public void HandleSearch(string[] parameters)
         {
-            Console.WriteLine("Search command executed");
+            if (parameters.Length == 0)
+            {
+                Console.WriteLine("No search query provided for search command.");
+                return;
+            }
+
+            string Query = parameters[0];
+
+            var index = Json.ReadIndexFile(
+                NoteFolder.DefaultFolderPath + "/index.json"
+            );
+
+            string DateTimeFormat = "yyyy-dd-MM HH:mm";
+
+            foreach (var Note in index.Notes)
+            {
+                string FilePath = Path.Combine(NoteFolder.DefaultFolderPath, Note.FileName);
+
+                using var FileStream = new FileStream(FilePath, FileMode.Open, FileAccess.Read);
+                using var Reader = new StreamReader(FileStream);
+                string FileContent = Reader.ReadToEnd();
+
+                if (FileContent.Contains(Query, StringComparison.OrdinalIgnoreCase) ||
+                    Note.FileName.Contains(Query, StringComparison.OrdinalIgnoreCase) ||
+                    Note.Tags.Exists(tag => tag.Equals(Query, StringComparison.OrdinalIgnoreCase)))
+                {
+                    Console.WriteLine("----- Match Found -----");
+                    Console.WriteLine("File name: " + Note.FileName);
+                    Console.WriteLine("Created at: " + Note.CreatedAt.ToString(DateTimeFormat));
+                    Console.WriteLine("Updated at: " + Note.UpdatedAt.ToString(DateTimeFormat));
+                    if (Note.Tags.Count > 0)
+                    {
+                        Console.WriteLine("Tags: " + string.Join(", ", Note.Tags));
+                    }
+
+                    if (FileContent.Length > 200)
+                    {
+                        FileContent = FileContent.Substring(0, 200) + "...";
+                    }
+                    Console.WriteLine("Result is: " + FileContent);
+                    Console.WriteLine("----------------------------------------");
+                }
+            }
         }
 
         public void HandleDelete(string[] parameters)

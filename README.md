@@ -71,7 +71,7 @@ index.json
 notes add 001.txt --tags "Computer Science" "C#"
 notes open 001.txt
 notes list
-notes search await
+notes search "await"
 notes delete 001.txt
 notes restore 001.txt
 ```
