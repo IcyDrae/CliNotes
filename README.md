@@ -65,12 +65,21 @@ index.json
 
 ---
 
+## How to install
+
+1. Download the executable for your OS in the releases section
+2. Put the executable in your path or create an alias for it in your .rc file
+
+---
+
 ## Example Usage
 
 ```bash
+notes help
 notes add 001.txt --tags "Computer Science" "C#"
 notes open 001.txt
 notes list
+notes list --tags "C#"
 notes search "await"
 notes delete 001.txt
 notes restore 001.txt

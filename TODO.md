@@ -89,9 +89,11 @@ You are not afraid of losing notes.
 ---
 
 ## Phase 7 – Polish
-- [ ] Help command (`notes help`)
-- [ ] Write README
-- [ ] Add usage examples
+- [x] Help command (`notes help`)
+- [x] Write README
+- [x] Add usage examples
+- [x] create builds for three os's
+- [x] create build with custom name "notes"
 
 **Done when:**  
 Project is portfolio-ready.

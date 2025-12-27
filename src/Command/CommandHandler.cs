@@ -49,6 +49,9 @@ namespace CliNotes
         {
             switch (command.ToLower())
             {
+                case "help":
+                    HandleHelp();
+                    break;
                 case "add":
                     HandleAdd(parameters);
                     break;
@@ -71,6 +74,19 @@ namespace CliNotes
                     Console.WriteLine($"Unknown command: {command}");
                     break;
             }
+        }
+
+        public void HandleHelp()
+        {
+            Console.WriteLine("CliNotes - Command Line Note Taking Application");
+            Console.WriteLine("Available commands:");
+            Console.WriteLine("  add <file_name> [--tags <tag1> <tag2> ...]   : Create a new note");
+            Console.WriteLine("  open <file_name>                             : Open an existing note");
+            Console.WriteLine("  list [--tags <tag1> <tag2> ...]              : List all notes, optionally filtered by tags");
+            Console.WriteLine("  search <query>                               : Search notes by content, filename, or tags");
+            Console.WriteLine("  delete <file_name>                           : Delete a note (move to trash)");
+            Console.WriteLine("  restore <file_name>                          : Restore a note from trash");
+            Console.WriteLine("  help                                         : Show this help message");
         }
 
         public void HandleAdd(string[] parameters)
