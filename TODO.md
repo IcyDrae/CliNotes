@@ -66,9 +66,9 @@ You can comfortably use the app daily.
 
 ## Phase 5 – Search & Tags
 - [x] Implement `notes search <text>`
-- [ ] create notes inside folder using given path
-- [ ] Implement `notes list --tag <tag>`
-- [ ] Ignore deleted notes in results
+- [x] create notes inside folder using given path
+- [x] Implement `notes list --tag <tag>`
+- [x] Ignore deleted notes in results
 - [x] Use index first before reading files
 - [x] Case-insensitive search
 

@@ -85,20 +85,7 @@ namespace CliNotes
             string indexPath = Path.Combine(FolderPath, "index.json");
             List<string> Tags = new List<string>();
 
-            // Parse --tags option
-            for (int i = 1; i < parameters.Length; i++)
-            {
-                if (parameters[i] == "--tags")
-                {
-                    i++; // move to first tag
-                    while (i < parameters.Length && !parameters[i].StartsWith("--"))
-                    {
-                        Tags.Add(parameters[i]);
-                        i++;
-                    }
-                    i--; // adjust because outer for loop will increment
-                }
-            }
+            Tags = ParseTags(parameters, Tags);
 
             // create empty file if it does not exist
             if (!File.Exists(FilePath))
@@ -177,18 +164,27 @@ namespace CliNotes
             }
             else
             {
-                string DateTimeFormat = "yyyy-dd-MM HH:mm";
-
                 foreach (var note in index.Notes)
                 {
-                    Console.WriteLine("File name: " + note.FileName);
-                    Console.WriteLine("Created at: " + note.CreatedAt.ToString(DateTimeFormat));
-                    Console.WriteLine("Updated at: " + note.UpdatedAt.ToString(DateTimeFormat));
-                    if (note.Tags.Count > 0)
+                    OutputNoteDetails(note);
+                }
+            }
+
+            List<string> Tags = new List<string>();
+            Tags = ParseTags(parameters, Tags);
+
+            if (Tags.Count > 0)
+            {
+                Console.WriteLine("Filtering notes by tags: " + string.Join(", ", Tags));
+                foreach (var tag in Tags)
+                {
+                    foreach (var note in index.Notes)
                     {
-                        Console.WriteLine("Tags: " + string.Join(", ", note.Tags));
+                        if (note.Tags.Contains(tag.ToLower()) && note.IsDeleted == false)
+                        {
+                            OutputNoteDetails(note);
+                        }
                     }
-                    Console.WriteLine("----------------------------------------");
                 }
             }
         }
@@ -207,8 +203,6 @@ namespace CliNotes
                 NoteFolder.DefaultFolderPath + "/index.json"
             );
 
-            string DateTimeFormat = "yyyy-dd-MM HH:mm";
-
             foreach (var Note in index.Notes)
             {
                 string FilePath = Path.Combine(NoteFolder.DefaultFolderPath, Note.FileName);
@@ -223,8 +217,8 @@ namespace CliNotes
                 {
                     Console.WriteLine("----- Match Found -----");
                     Console.WriteLine("File name: " + Note.FileName);
-                    Console.WriteLine("Created at: " + Note.CreatedAt.ToString(DateTimeFormat));
-                    Console.WriteLine("Updated at: " + Note.UpdatedAt.ToString(DateTimeFormat));
+                    Console.WriteLine("Created at: " + Note.CreatedAt.ToString(Note.DateTimeFormat));
+                    Console.WriteLine("Updated at: " + Note.UpdatedAt.ToString(Note.DateTimeFormat));
                     if (Note.Tags.Count > 0)
                     {
                         Console.WriteLine("Tags: " + string.Join(", ", Note.Tags));
@@ -272,6 +266,37 @@ namespace CliNotes
             process.Start();
 
             process.WaitForExit();
+        }
+
+        private static void OutputNoteDetails(Note note)
+        {
+            Console.WriteLine("File name: " + note.FileName);
+            Console.WriteLine("Created at: " + note.CreatedAt.ToString(Note.DateTimeFormat));
+            Console.WriteLine("Updated at: " + note.UpdatedAt.ToString(Note.DateTimeFormat));
+            if (note.Tags.Count > 0)
+            {
+                Console.WriteLine("Tags: " + string.Join(", ", note.Tags));
+            }
+            Console.WriteLine("----------------------------------------");
+        }
+
+        private static List<string> ParseTags(string[] parameters, List<string> Tags)
+        {
+            for (int i = 1; i < parameters.Length; i++)
+            {
+                if (parameters[i] == "--tags")
+                {
+                    i++; // move to first tag
+                    while (i < parameters.Length && !parameters[i].StartsWith("--"))
+                    {
+                        Tags.Add(parameters[i]);
+                        i++;
+                    }
+                    i--; // adjust because outer for loop will increment
+                }
+            }
+
+            return Tags;
         }
     }
 }
