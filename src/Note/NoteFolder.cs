@@ -4,16 +4,15 @@ namespace CliNotes
 {
     public class NoteFolder
     {
-        // Default folder path: ~/notes
-        public static string DefaultFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/notes";
-        public const string DefaultFolderName = "notes";
+        // Default folder path: ~/Notes
+        public static string DefaultFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/Notes";
         public const string TrashFolderName = "trash";
         public const string IndexFileName = "index.json";
 
         /*
-        create ~/notes
-        create ~/notes/trash
-        create ~/notes/index.json
+        create ~/Notes
+        create ~/Notes/trash
+        create ~/Notes/index.json
         */
         public void CreateFolderStructure()
         {
